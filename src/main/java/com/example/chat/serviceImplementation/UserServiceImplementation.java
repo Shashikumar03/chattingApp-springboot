@@ -23,6 +23,10 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public UserDto createUser(UserDto userDto) {
+       boolean isPresent= this.userRepository.existsByEmail(userDto.getEmail());
+       if(isPresent){
+           throw  new RuntimeException("User already exists");
+       }
         // Convert UserDto to User entity
         User user = modelMapper.map(userDto, User.class);
         // Save the user entity
